@@ -1,0 +1,104 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    font-size: 62.5%;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Playfair Display";
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Titillium Web";
+}
+
+h4 {
+    font-size: 2.4rem;
+}
+
+header,
+footer {
+    text-align: center;
+}
+
+p {
+    font-size: 1.8rem;
+}
+
+#title {
+    font-size: 4rem;
+}
+
+.chart-section {
+    width: 100vw;
+    min-height: 100vh;
+    position: relative;
+}
+
+#chart-bg {
+    position: absolute;
+    background: green
+        url(https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+#chart {
+    position: relative;
+    background-color: rgba(43, 82, 43, 0.8);
+    -webkit-backdrop-filter: blur(180);
+    backdrop-filter: blur(180);
+}
+
+svg {
+    padding-right: 20px;
+}
+
+.domain,
+.tick {
+    color: linen;
+}
+
+.bar {
+    fill: springgreen;
+    will-change: fill;
+    transition: fill 300ms;
+}
+
+.endGradient {
+    stop-color: #297876;
+    stop-opacity: 1;
+}
+
+.beginGradient {
+    stop-color: hsl(178, 90%, 45%);
+    stop-opacity: 1;
+}
+
+.bar:hover {
+    fill: darkgreen;
+}
+
+#tooltip {
+    position: absolute;
+    opacity: 0;
+    background-color: darkgreen;
+    color: linen;
+    font-size: 2rem;
+    padding: 20px 40px;
+    top: 200px;
+    left: 200px;
+}
