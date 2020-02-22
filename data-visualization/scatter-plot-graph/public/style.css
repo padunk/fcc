@@ -87,6 +87,11 @@ footer {
     box-shadow: 0 0 10px 2px;
 }
 
+svg|a:hover {
+    outline: 1px dotted white;
+    outline-offset: 2px;
+}
+
 .riders-name {
     font-weight: bold;
 }
