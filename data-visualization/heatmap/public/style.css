@@ -1,0 +1,90 @@
+@namespace svg url(http://www.w3.org/2000/svg);
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+a {
+    text-decoration: none;
+}
+button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+input {
+    font-family: inherit;
+}
+ul,
+ol,
+dd {
+    list-style: none;
+}
+cite {
+    font-style: normal;
+}
+html {
+    font-size: 62.5%; /*for using REM units*/
+}
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+        "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: 0.6px;
+    background-color: rgb(20, 30, 40);
+    color: hsl(199, 98%, 48%);
+}
+
+
+header,
+footer {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+#heat-map {
+    position: relative;
+}
+
+#tooltip {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    position: absolute;
+    z-index: 10;
+    padding: 1rem 2rem;
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    border-radius: 1rem;
+}
+
+.cell:hover {
+    stroke-width: 3px;
+    stroke: black;
+}
+
+.footer_link:link {
+    color: linen;
+}
+
+.footer_link:visited {
+    color: rgba(0, 120, 150, 0.6);
+}
+
+.footer_link:hover {
+    color: orangered;
+}
+
+.show {
+    opacity: 1;
+}
+
+.hide {
+    opacity: 0;
+}
