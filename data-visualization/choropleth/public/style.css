@@ -42,9 +42,42 @@ body {
     color: hsl(199, 98%, 48%);
 }
 
-
 header,
 footer {
     text-align: center;
     margin-bottom: 3rem;
+}
+
+#legend {
+    display: grid;
+    place-items: center;
+}
+
+#usa-map {
+    position: relative;
+    display: grid;
+    place-items: center;
+}
+
+#tooltip {
+    position: absolute;
+    border-radius: 5px;
+    padding: 8px 14px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: linen;
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+}
+
+.county:hover {
+    stroke: rgba(10, 10, 255, 0.8);
+    stroke-width: 3px;
+}
+
+.show {
+    opacity: 1;
+}
+
+.hide {
+    opacity: 0;
 }
