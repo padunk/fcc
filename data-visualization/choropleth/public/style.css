@@ -71,7 +71,7 @@ footer {
 
 .county:hover {
     stroke: rgba(10, 10, 255, 0.8);
-    stroke-width: 3px;
+    stroke-width: 1px;
 }
 
 .show {

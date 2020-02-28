@@ -21,10 +21,16 @@ async function getData(url) {
 }
 
 async function renderChoropleth() {
+    const zoom = d3
+        .zoom()
+        .scaleExtent([1, 8])
+        .on("zoom", zoomed);
+
     const svg = select(mapWrapper)
         .append("svg")
         .attr("width", svgWidth)
-        .attr("height", svgHeight);
+        .attr("height", svgHeight)
+        .on("click", reset);
 
     const color = scaleQuantize([1, 100], schemeBlues[9]);
 
@@ -49,11 +55,12 @@ async function renderChoropleth() {
         .attr("id", "tooltip");
 
     // render map
-    svg.append("g")
-        .selectAll("path")
+    const g = svg.append("g");
+    g.selectAll("path")
         .data(feature(us, us.objects.counties).features)
         .join("path")
         .attr("fill", d => color(data.get(d.id)))
+        .on("click", clicked)
         .attr("d", path)
         .attr("class", "county")
         .attr("data-fips", d => d.id)
@@ -71,24 +78,62 @@ async function renderChoropleth() {
                 .style("top", `${d.geometry.coordinates[0][0][1]}px`);
         });
 
-    svg.on("mouseover", () => {
+    g.on("mouseover", () => {
         // console.log('show');
-        tip.attr('class') === 'show'
-        ? ''
-        : tip.attr("class", "show");
+        tip.attr("class") === "show" ? "" : tip.attr("class", "show");
     }).on("mouseleave", () => {
         // console.log('hide');
         tip.attr("class", "hide");
     });
 
-    svg.append("path")
+    g.append("path")
         .datum(mesh(us, us.objects.states, (a, b) => a !== b))
         .attr("fill", "none")
         .attr("stroke", "white")
         .attr("stroke-linejoin", "round")
         .attr("d", path);
 
-    
+    // Zoom feature
+    function reset() {
+        svg.transition()
+            .duration(750)
+            .call(
+                zoom.transform,
+                d3.zoomIdentity,
+                d3
+                    .zoomTransform(svg.node())
+                    .invert([svgWidth / 2, svgHeight / 2])
+            );
+    }
+
+    function clicked(d) {
+        const [[x0, y0], [x1, y1]] = path.bounds(d);
+        d3.event.stopPropagation();
+        svg.transition()
+            .duration(750)
+            .call(
+                zoom.transform,
+                d3.zoomIdentity
+                    .translate(svgWidth / 2, svgHeight / 2)
+                    .scale(
+                        Math.min(
+                            8,
+                            0.9 /
+                                Math.max((x1 - x0) / svgWidth, (y1 - y0) / svgHeight)
+                        )
+                    )
+                    .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
+                d3.mouse(svg.node())
+            );
+    }
+
+    function zoomed() {
+        const { transform } = d3.event;
+        g.attr("transform", transform);
+        g.attr("stroke-width", 1 / transform.k);
+    }
+
+    svg.call(zoom);
 }
 
 function renderLegend(dataset, colorScheme) {
