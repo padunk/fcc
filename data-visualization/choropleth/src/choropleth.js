@@ -65,26 +65,18 @@ async function renderChoropleth() {
         .attr("class", "county")
         .attr("data-fips", d => d.id)
         .attr("data-education", d => data.get(d.id))
-        .on("mouseover", d => {
+        .on("mouseenter", d => {
+            tip.style('opacity', 0.9)
             tip.attr("data-education", data.get(d.id))
-                .html(
-                    `
-                <p>${eduDataObj[d.id].area_name}, ${eduDataObj[d.id].state}: ${
-                        eduDataObj[d.id].bachelorsOrHigher
-                    }%</p>
-            `
-                )
-                .style("left", `${d.geometry.coordinates[0][0][0] + 170}px`)
-                .style("top", `${d.geometry.coordinates[0][0][1]}px`);
+                .html( `
+                    <p>${eduDataObj[d.id].area_name}, ${eduDataObj[d.id].state}: ${eduDataObj[d.id].bachelorsOrHigher}%</p>
+                `)
+                .style("left", `${d3.event.pageX + 20}px`)
+                .style("top", `${d3.event.pageY - 200}px`);
+        })
+        .on('mouseleave', d => {
+            tip.style('opacity', 0)
         });
-
-    g.on("mouseover", () => {
-        // console.log('show');
-        tip.attr("class") === "show" ? "" : tip.attr("class", "show");
-    }).on("mouseleave", () => {
-        // console.log('hide');
-        tip.attr("class", "hide");
-    });
 
     g.append("path")
         .datum(mesh(us, us.objects.states, (a, b) => a !== b))

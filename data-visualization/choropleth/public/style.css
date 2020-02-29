@@ -67,17 +67,12 @@ footer {
     color: linen;
     -webkit-backdrop-filter: blur(3px);
     backdrop-filter: blur(3px);
+    opacity: 0;
+    pointer-events: none;
+    will-change: opacity;
 }
 
 .county:hover {
     stroke: rgba(255, 120, 10, 0.8);
-    stroke-width: 1px;
-}
-
-.show {
-    opacity: 1;
-}
-
-.hide {
-    opacity: 0;
+    stroke-width: 2px;
 }
