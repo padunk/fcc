@@ -119,7 +119,10 @@ async function renderChoropleth() {
                         Math.min(
                             8,
                             0.9 /
-                                Math.max((x1 - x0) / svgWidth, (y1 - y0) / svgHeight)
+                                Math.max(
+                                    (x1 - x0) / svgWidth,
+                                    (y1 - y0) / svgHeight
+                                )
                         )
                     )
                     .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
@@ -140,6 +143,17 @@ function renderLegend(dataset, colorScheme) {
     const p = Math.max(0, d3.precisionFixed(0.05) - 2);
     const format = d3.format(`.${p}%`);
     const percentage = dataset.map(d => d[1] / 100);
+    const min = Math.min(...percentage);
+    const max = Math.max(...percentage);
+    const steps = (max - min) / colorScheme.length;
+    const percentSteps = [];
+    colorScheme.forEach((c, i) => {
+        let ps = min + i * steps;
+        percentSteps.push(ps);
+    });
+    const padding = {
+        left: 20,
+    };
     const legendWidth = 50;
     const legendHeight = 15;
     const svg = select(legend)
@@ -150,9 +164,12 @@ function renderLegend(dataset, colorScheme) {
     const xScale = d3
         .scaleLinear()
         .domain([d3.min(percentage), d3.max(percentage)])
-        .range([0, legendWidth * colorScheme.length]);
+        .range([padding.left, padding.left + legendWidth * colorScheme.length]);
 
-    const xAxis = d3.axisBottom(xScale).tickFormat(format);
+    const xAxis = d3
+        .axisBottom(xScale)
+        .tickValues(percentSteps)
+        .tickFormat(format);
 
     svg.append("g")
         .call(xAxis)
@@ -160,14 +177,15 @@ function renderLegend(dataset, colorScheme) {
 
     svg.append("g")
         .selectAll("rect")
-        .data(colorScheme)
+        .data(percentSteps)
         .enter()
         .append("rect")
-        .attr("fill", d => d)
+        .attr("fill", (_, i) => colorScheme[i])
         .attr("x", (_, i) => i * legendWidth)
         .attr("y", 0)
         .attr("width", legendWidth)
-        .attr("height", legendHeight);
+        .attr("height", legendHeight)
+        .attr("transform", `translate(${padding.left}, 0)`);
 }
 
 function init() {
